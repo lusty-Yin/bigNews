@@ -39,5 +39,42 @@
   </div>
 
 </body>
+<script src="./libs/http.js"></script>
+<script>
+  
+    $(function(){
+        $('.input_sub').on('click',function(e){
+          e.preventDefault();
+          var username = $('.input_txt').val();
+          var password = $('.input_pass').val();
+          console.log(username);
+          console.log(password);
+          
+          if(username == '' || password == ''){
+            alert('请输入用户名或密码');
+            return;
+          };
+          $.ajax({
+            type:'post',
+            url:BigNew.user_login,
 
+            data:{
+              username:username,
+              password:password
+            },
+            success:function(backData){
+             if(backData.code == 200){
+               alert('登录成功!');
+               window.location.href = './index.html';
+               window.localStorage.setItem('token',backData.token);
+             }else{
+               alert('用户名或密码错误');
+               $('.input_txt').val('');
+               $('.input_pass').val('');
+             };
+            }
+          });
+        });
+    })
+</script>
 </html>
